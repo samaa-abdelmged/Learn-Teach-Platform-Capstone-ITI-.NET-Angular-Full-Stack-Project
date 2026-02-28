@@ -1,0 +1,12 @@
+# Angular
+**/node_modules
+**/dist
+
+# .NET
+**/bin
+**/obj
+
+# VS
+.vs
+.vscode
+*.user

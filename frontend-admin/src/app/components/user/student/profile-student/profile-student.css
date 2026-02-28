@@ -1,0 +1,4 @@
+/* Flex parent */
+.flex {
+    min-height: 0; /* مهم للـ flex */
+}

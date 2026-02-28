@@ -1,0 +1,19 @@
+<app-user-header [isDarkMode]="isDarkMode" (toggleSidebarEvent)="toggleSidebar()"
+    (toggleDarkModeEvent)="toggleDarkMode()" (roleChanged)="onRoleChange($event)">
+</app-user-header>
+
+<div class="">
+    <ng-container *ngIf="currentRole === 'student'">
+        <app-sidebar></app-sidebar>
+        <div class="flex-1 p-4">
+            <!-- <app-student-content></app-student-content> -->
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="currentRole === 'teacher'">
+        <app-sideteacher></app-sideteacher>
+        <div class="flex-1 p-4">
+            <!-- <app-teacher-content></app-teacher-content> -->
+        </div>
+    </ng-container>
+</div>

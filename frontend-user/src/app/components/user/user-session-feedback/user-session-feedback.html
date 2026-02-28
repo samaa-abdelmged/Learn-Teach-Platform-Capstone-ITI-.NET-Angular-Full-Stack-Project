@@ -1,0 +1,61 @@
+<div class="feedback-modal relative max-w-4xl w-full p-8 bg-white rounded-2xl shadow-lg max-h-[90vh] overflow-y-auto">
+
+  <!-- Close Button -->
+  <button (click)="close()"
+          class="absolute top-2 right-4 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full p-2 shadow transition-colors text-lg font-bold">
+    ❌
+  </button>
+
+  <!-- Title -->
+  <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Session Feedback</h3>
+
+  <!-- Add Feedback Button -->
+  <div *ngIf="!showForm && !userFeedback" class="flex justify-center mb-4">
+    <button (click)="startAdd()"
+            class="bg-blue-600 text-white font-medium px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors">
+      Add Feedback
+    </button>
+  </div>
+
+  <!-- Feedback Form -->
+  <div *ngIf="showForm" class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Rating (1-5)</label>
+        <input type="number" formControlName="ratingValue" min="1" max="5"
+               class="w-24 border rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Comment</label>
+        <textarea formControlName="comment" rows="3"
+                  class="w-full border rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button type="submit"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+          {{ editingFeedback ? 'Update' : 'Add' }}
+        </button>
+        <button type="button" (click)="cancel()"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Show user's feedback only IF not editing -->
+  <div *ngIf="userFeedback && !showForm" class="p-4 rounded-xl border bg-blue-50 border-blue-300">
+    <p class="font-semibold text-gray-800">{{ userFeedback.ratedByUserName }}</p>
+    <p class="text-gray-700">{{ userFeedback.comment }}</p>
+    <p class="text-yellow-500 font-semibold">{{ userFeedback.ratingValue }} ⭐</p>
+    <div class="flex gap-2 mt-2">
+      <button (click)="startEdit(userFeedback)"
+              class="text-blue-600 font-medium hover:underline">Edit</button>
+      <button (click)="delete(userFeedback.feedbackId)"
+              class="text-red-600 font-medium hover:underline">Delete</button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,45 @@
+<div [ngClass]="{
+        'fixed top-0 left-0 z-50 h-screen  transition-transform duration-300': true,
+        '-translate-x-full': isMobile() && !isSidebarOpen,
+        'translate-x-0': isSidebarOpen
+      }" [style.width.px]="isSidebarOpen ? 240 : 56" class="bg-white dark:bg-gray-800 shadow-lg">
+    <app-sidestudent [collapsed]="!isSidebarOpen"></app-sidestudent>
+</div>
+
+<div *ngIf="isSidebarOpen && isMobile()" class="fixed inset-0 bg-black/40 z-40" (click)="toggleSidebar()"></div>
+
+<main [ngStyle]="{'margin-left.px': isSidebarOpen && !isMobile() ? 240 : 56}"
+    class="flex flex-col transition-all duration-300 overflow-auto min-h-screen">
+    <app-user-header [isDarkMode]="isDarkMode" (toggleSidebarEvent)="toggleSidebar()"
+        (toggleDarkModeEvent)="toggleDarkMode()"></app-user-header>
+<div class="max-w-4xl mx-auto mt-6">
+  <div class="flex gap-2 mb-4 items-center flex-wrap">
+    <button [ngClass]="{'bg-blue-500 text-white': filter==='All', 'bg-gray-200': filter!=='All'}"
+      class="px-4 py-2 rounded" (click)="setFilter('All')">All</button>
+    <button [ngClass]="{'bg-blue-500 text-white': filter==='Teacher', 'bg-gray-200': filter!=='Teacher'}"
+      class="px-4 py-2 rounded" (click)="setFilter('Teacher')">Teacher</button>
+    <button [ngClass]="{'bg-blue-500 text-white': filter==='Student', 'bg-gray-200': filter!=='Student'}"
+      class="px-4 py-2 rounded" (click)="setFilter('Student')">Student</button>
+
+    <button *ngIf="filter==='Teacher'"
+      class="ml-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition"
+      routerLink="/sessions/create">
+      Create Session
+    </button>
+
+  </div>
+
+  <app-session-card 
+  *ngFor="let s of sessions" 
+  [session]="s" 
+  [currentFilter]="filter"
+  (joinEvent)="onJoin($event)" 
+  (editEvent)="onEdit($event)"
+  (deleteEvent)="onDelete($event)">
+</app-session-card>
+
+
+
+
+</div>
+</main>

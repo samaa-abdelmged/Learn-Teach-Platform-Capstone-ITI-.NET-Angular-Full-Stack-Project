@@ -1,0 +1,61 @@
+
+<div class="bg-white shadow-md rounded-lg p-4 mb-4 hover:shadow-lg transition-shadow duration-200">
+  <h3 class="font-bold text-lg text-gray-800 mb-1">{{ session.sessionTitle }}</h3>
+
+  <p class="text-gray-600 text-sm mb-1">
+    <span class="font-semibold">With:</span>
+    {{ session.otherUserFullName }}
+  </p>
+
+  <p class="text-gray-600 text-sm mb-1">
+    <span class="font-semibold">Skill:</span> {{ session.skill?.name }}
+  </p>
+
+  <!-- Status with color -->
+  <p class="text-sm mb-2">
+    <span class="font-semibold">Status:</span>
+    <span [ngClass]="{
+        'text-yellow-500': session.status === 'Scheduled',
+        'text-green-500': session.status === 'Ongoing',
+        'text-gray-500': session.status === 'Completed'
+      }">
+      {{ session.status }}
+    </span>
+  </p>
+
+  <p class="text-gray-500 text-sm mb-2">
+    <span class="font-semibold">Start:</span> {{ session.scheduleStartEgypt | date:'short' }} |
+    <span class="font-semibold">End:</span> {{ session.scheduleEndEgypt | date:'short' }}
+  </p>
+
+  <div class="flex gap-2">
+    <!-- Join button only for Ongoing -->
+    <button *ngIf="session.status === 'Ongoing'" (click)="onJoin()"
+      class="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded transition">
+      Join
+    </button>
+
+    <!-- Teacher buttons -->
+    <!-- Edit Button -->
+    <button *ngIf="canEdit(currentFilter)" (click)="onEdit()"
+      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-shadow shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
+      Edit
+    </button>
+
+    <!-- Delete Button -->
+    <button *ngIf="canDelete(currentFilter)" (click)="onDelete()"
+      class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-shadow shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
+      Delete
+    </button>
+
+    <!-- Add Feedback  -->
+    <button *ngIf="session.status.toLowerCase() === 'completed'" (click)="openFeedbackModal(session.sessionId)"
+      class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+     Feedback
+    </button>
+
+
+
+  </div>
+</div>
+

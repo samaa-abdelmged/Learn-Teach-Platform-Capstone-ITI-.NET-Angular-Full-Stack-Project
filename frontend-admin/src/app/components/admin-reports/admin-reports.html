@@ -1,0 +1,147 @@
+
+<div>
+  <app-navbar></app-navbar>
+  <app-sidebar></app-sidebar>
+
+  <div class="p-6 space-y-6">
+    <h1 class="text-3xl font-bold mb-4">Admin Reports</h1>
+
+    <!-- Errors -->
+    <div *ngIf="errorMessage" class="p-3 bg-red-200 text-red-800 rounded">
+      {{ errorMessage }}
+    </div>
+
+    <!-- All Reports Table -->
+    <h2 class="text-xl font-semibold">All Reports</h2>
+
+    <table class="w-full border-collapse border text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border p-2">Reporter ID</th>
+          <th class="border p-2">Target ID</th>
+          <th class="border p-2">Type</th>
+          <th class="border p-2">Reported User Status</th>
+          <th class="border p-2">Description</th>
+          <th class="border p-2">ٌReport Status</th>
+          <th class="border p-2">Created</th>
+          <th class="border p-2">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let r of allReports" class="hover:bg-gray-50">
+
+          <td class="border p-2">{{ r.reportedBy }}</td>
+
+          <td class="border p-2">
+            {{ r.reportedUserId || '-' }}
+            <!-- <span *ngIf="r.reportedUserStatus === 'suspended'"
+                  class="px-2 py-1 bg-red-200 text-red-700 rounded ml-1 text-xs">
+              Suspended
+            </span> -->
+          </td>
+
+          <td class="border p-2">{{ r.entityType }}</td>
+
+          <td class="border p-2">
+            <span [ngClass]="r.reportedUserStatus === 'suspended' 
+                              ? 'px-2 py-1 bg-red-200 text-red-700 rounded' 
+                              : 'px-2 py-1 bg-green-200 text-green-700 rounded'">
+              {{ r.reportedUserStatus === 'suspended' ? 'Suspended' : 'Active' }}
+            </span>
+          </td>
+
+          <td class="border p-2">{{ r.description }}</td>
+
+          <td class="border p-2">
+            <span [ngClass]="getStatusBadge(r.status).class">
+              {{ getStatusBadge(r.status).text }}
+            </span>
+            <span *ngIf="r.notified"
+                  class="ml-2 px-2 py-1 bg-blue-200 text-blue-700 rounded text-xs">
+              Notified
+            </span>
+          </td>
+
+          <td class="border p-2">{{ r.createdAt | date:'short' }}</td>
+
+          <td class="border p-2 flex gap-2">
+
+            <button class="px-2 py-1 bg-blue-500 text-white rounded"
+                    (click)="updateStatus(r.reportId, 'Approved')">
+              Approve
+            </button>
+
+            <button class="px-2 py-1 bg-yellow-500 text-white rounded"
+                    (click)="updateStatus(r.reportId, 'Rejected')">
+              Reject
+            </button>
+
+            <button class="px-2 py-1 bg-red-500 text-white rounded"
+                    (click)="deleteReport(r.reportId)">
+              Delete
+            </button>
+
+            <button *ngIf="r.reportedUserId"
+                    [ngClass]="r.reportedUserStatus === 'suspended'
+                      ? 'px-2 py-1 bg-green-600 text-white rounded'
+                      : 'px-2 py-1 bg-purple-600 text-white rounded'"
+                    (click)="suspendOrRestoreUser(r.reportedUserId)">
+              {{ r.reportedUserStatus === 'suspended' ? 'Restore User' : 'Suspend User' }}
+            </button>
+
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pending Reports Section -->
+    <!-- <h2 class="text-xl font-semibold mt-6">Pending Reports</h2>
+
+    <div *ngFor="let r of pendingReports"
+         class="p-6 bg-yellow-100 rounded border">
+
+      <p><strong>{{ r.description }}</strong></p>
+
+      <p class="text-xs text-gray-600">
+        Reporter ID: {{ r.reportedBy }}
+      </p>
+
+      <p class="text-xs text-gray-600">
+        Target ID: {{ r.reportedUserId || '-' }} -->
+
+        <!--  -->
+        <!-- <span *ngIf="r.reportedUserStatus === 'suspended'"
+              class="px-2 py-1 bg-red-200 text-red-700 rounded ml-1 text-xs">
+          Suspended
+        </span> -->
+        <!--  -->
+
+        <!-- <span [ngClass]="r.reportedUserStatus === 'suspended'
+        ? 'px-2 py-1 bg-red-200 text-red-700 rounded ml-1 text-xs'
+        : 'px-2 py-1 bg-green-200 text-green-700 rounded ml-1 text-xs'">
+        {{ r.reportedUserStatus === 'suspended' ? 'Suspended' : 'Active' }}
+      </span>
+        <span *ngIf="r.notified"
+              class="ml-2 px-2 py-1 bg-blue-200 text-blue-700 rounded text-xs">
+          Notified
+        </span>
+      </p>
+
+      <button class="mt-2 px-3 py-1 bg-green-600 text-white rounded"
+              (click)="updateStatus(r.reportId, 'Approved')">
+        Approve
+      </button>
+
+      <button class="mt-2 ml-2 px-3 py-1 bg-red-600 text-white rounded"
+              (click)="updateStatus(r.reportId, 'Rejected')">
+        Reject
+      </button>
+
+    </div> -->
+
+  </div>
+</div>
+<!-- </main> -->
+<!-- </section> -->
