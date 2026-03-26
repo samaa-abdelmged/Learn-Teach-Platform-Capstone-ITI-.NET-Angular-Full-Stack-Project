@@ -30,7 +30,7 @@ Angular
 TypeScript
 HTML5
 CSS3
-Bootstrap
+Tailwind
 
 Backend
 C#
